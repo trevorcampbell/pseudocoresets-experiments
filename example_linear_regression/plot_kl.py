@@ -25,12 +25,14 @@ for i, nm in enumerate(nms):
   sz = []
   for t in trials:
     f = open(prfx+'/results_'+nm[0]+'_' + str(t)+'.pk', 'rb')
-    res = pk.load(f) #res = (x, mu0, Sig0, mup, Sigp, w, p, muw, Sigw, rklw, fklw, basis_scales, basis_locs, datastd)
+    res = pk.load(f) #res = (w, rklw, fklw)
+    prior = open(prfx+'/results_PRIOR_' + str(t)+'.pk', 'rb')
+    res_prior = pk.load(prior)
     f.close()
     if plot_reverse_kl:
-      kl.append(res[1][::plot_every])
+      kl.append(res[1][::plot_every]/res_prior[1][::plot_every])
     else:
-      kl.append(res[2][::plot_every])
+      kl.append(res[2][::plot_every]/res_prior[2][::plot_every])
     sz.append( np.array([w.shape[0] for w in res[0]])[::plot_every])
   x = np.percentile(sz, 50, axis=0)
   fig.line(x, np.percentile(kl, 50, axis=0), color=nm[-1], line_width=5, legend_label=nm[1])
