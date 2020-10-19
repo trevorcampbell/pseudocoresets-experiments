@@ -11,13 +11,13 @@ import gaussian
 
 M = 200
 N = 1000
-d = 200
+d = 500
 SVI_opt_itrs = 500
 BPSVI_opt_itrs = 500
 n_subsample_opt = None
 proj_dim = 100
 pihat_noise = 0.75
-BPSVI_step_sched = lambda m: lambda i : (-0.005*m+1.005)/(1+i) # linear interpolaton giving i0=1 at m=1 and i0=0.005 at m=200
+BPSVI_step_sched = lambda m: lambda i : max((-0.005*m+1.1)/(1+i), 0.2) 
 SVI_step_sched = lambda i : 1./(1+i)
 
 results_fldr = 'results'
@@ -123,7 +123,7 @@ def build_for_m(m): # auxiliary function for parallelizing BPSVI experiment
 
 if nm=="BPSVI": #parallelize over batch pseudocoreset sizes
   from multiprocessing import Pool
-  pool = Pool(processes=4)
+  pool = Pool(processes=10)
   res = pool.map(build_for_m, range(1, M+1))
   for wts, pts, _ in res:
     w.append(wts)
