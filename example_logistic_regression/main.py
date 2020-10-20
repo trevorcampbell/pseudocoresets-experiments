@@ -56,7 +56,7 @@ def get_laplace(wts, Z, mu0, diag=False):
 ## TUNING PARAMETERS ##
 M = 100
 SVI_step_sched = lambda itr : i0/(1.+itr)
-BPSVI_step_sched = lambda itr : i0/(1.+itr) # make step schedule potentially dependent on coreset size
+BPSVI_step_sched = lambda itr : i0/(1.+itr) 
 DPBPSVI_step_sched = lambda itr : i0/(1.+itr)
 n_subsample_opt = 200
 n_subsample_select = 1000
