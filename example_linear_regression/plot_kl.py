@@ -37,7 +37,7 @@ for i, nm in enumerate(nms):
   x = np.percentile(sz, 50, axis=0)
   fig.line(x, np.percentile(kl, 50, axis=0), color=nm[-1], line_width=5, legend_label=nm[1])
   fig.patch(x = np.hstack((x, x[::-1])), y = np.hstack((np.percentile(kl, 75, axis=0), np.percentile(kl, 25, axis=0)[::-1])), color=nm[-1], fill_alpha=0.4, legend_label=nm[1])
-postprocess_plot(fig, '22pt', location='top_right', glyph_width=40)
+postprocess_plot(fig, '70pt', location='top_right', glyph_width=40)
 fig.legend.background_fill_alpha=0.
 fig.legend.border_line_alpha=0.
 fig.legend.visible = True
@@ -45,4 +45,4 @@ fig.legend.visible = True
 #bkp.show(fig)
 if not os.path.exists(fldr_figs):
   os.mkdir(fldr_figs)
-export_png(fig, filename=os.path.join(fldr_figs, "KLDvsCstSize.png"), height=1500, width=1500)
+export_png(fig, filename=os.path.join(fldr_figs, "KLDvsCstSize.png"), height=1500, width=2000)

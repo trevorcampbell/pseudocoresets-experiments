@@ -17,13 +17,14 @@ def build_synthetic_dataset(N, w, noise_std=0.1):
 
 nm = sys.argv[1]
 tr = sys.argv[2]
+
 results_fldr = 'results'
 if not os.path.exists(results_fldr):
   os.mkdir(results_fldr)
 
 #use the trial # as seed
 np.random.seed(int(tr))
-M = 300
+M = 300 # maximum coreset size
 SVI_opt_itrs = 1000
 BPSVI_opt_itrs = 1000
 n_subsample_opt = 200
@@ -33,8 +34,8 @@ pihat_noise = 0.75
 BPSVI_step_sched = lambda m: lambda i : 0.1/(1+i)
 SVI_step_sched = lambda i : 1./(1+i)
 
-N = 2000  # number of data points
-D = 100  # number of features
+N = 2000 # number of datapoints
+D = 100 # datapoints dimensionality
 d = D+1 # dimensionality of w
 
 w_true = np.random.randn(d)
@@ -82,11 +83,11 @@ prj_realistic = bc.BlackBoxProjector(sampler_realistic, proj_dim, log_likelihood
 
 print('Creating black box projector')
 def sampler_w(n, wts, pts):
-    if pts.shape[0] == 0:
-      wts = np.zeros(1)
-      pts = np.zeros((1, Z.shape[1]))
-    muw, LSigw, LSigwInv = model_linreg.weighted_post(mu0, Sig0inv, datastd**2, pts, wts)
-    return muw + np.random.randn(n, muw.shape[0]).dot(LSigw.T)
+  if pts.shape[0] == 0:
+    wts = np.zeros(1)
+    pts = np.zeros((1, Z.shape[1]))
+  muw, LSigw, LSigwInv = model_linreg.weighted_post(mu0, Sig0inv, datastd**2, pts, wts)
+  return muw + np.random.randn(n, muw.shape[0]).dot(LSigw.T)
 prj_w = bc.BlackBoxProjector(sampler_w, proj_dim, log_likelihood, grad_log_likelihood)
 
 #create coreset construction objects
