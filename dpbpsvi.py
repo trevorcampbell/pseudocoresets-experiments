@@ -19,7 +19,7 @@ def clip(x, c, axis=None):
   return (x/(np.linalg.norm(x, axis=axis)+1e-15)*np.clip(np.linalg.norm(x, axis=axis), 0., c)).T
 
 class DiffPrivBatchPSVICoreset(Coreset):
-  def __init__(self, data, ll_projector, opt_itrs=500, n_subsample_opt=128, step_sched=lambda m: lambda i: 1./(1.+i),
+  def __init__(self, data, ll_projector, opt_itrs=500, n_subsample_opt=128, step_sched=lambda i: 1./(1.+i),
                noise_multiplier=1.1, delta=None, init_sampler=None, gen_inits=None, l2normclip=100., **kw):
     self.data = data
     self.ll_projector = ll_projector
@@ -38,7 +38,7 @@ class DiffPrivBatchPSVICoreset(Coreset):
   def get_privacy_params(self):
     return self.dp
 
-  def _build(self, itrs, sz):
+  def _build(self, sz):
     # privately initialize points
     self._initialize(sz)
     # run gradient optimization for opt_itrs steps
@@ -70,7 +70,7 @@ class DiffPrivBatchPSVICoreset(Coreset):
       grad = np.hstack((wgrad, ugrad.reshape(sz*d)))
       return grad
     x0 = np.hstack((self.wts, self.pts.reshape(sz*d)))
-    xf = nn_opt(x0, grd, np.arange(sz), self.opt_itrs, step_sched = self.step_sched(sz))
+    xf = nn_opt(x0, grd, np.arange(sz), self.opt_itrs, step_sched = self.step_sched)
     self.wts = xf[:sz]
     self.pts = xf[sz:].reshape((sz, d))
     return
