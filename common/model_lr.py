@@ -40,7 +40,7 @@ def log_prior(th):
   return -0.5*th.shape[1]*np.log(2.*np.pi) - 0.5*(th**2).sum(axis=1)
 
 def log_joint(z, th, wts):
-    return (wts[:, np.newaxis]*log_likelihood(z, th)).sum(axis=0) + log_prior(th)
+  return (wts[:, np.newaxis]*log_likelihood(z, th)).sum(axis=0) + log_prior(th)
 
 def grad_th_log_likelihood(z, th):
   z = np.atleast_2d(z)

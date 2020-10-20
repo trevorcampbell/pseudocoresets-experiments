@@ -9,9 +9,9 @@ from scipy.stats import multivariate_normal
 sys.path.insert(1, os.path.join(sys.path[0], '../common'))
 import gaussian
 
-M = 200
-N = 1000
-d = 500
+M = 200 # maximum coreset size
+N = 1000 # number of original set datapoints
+d = 500 # datapoints dimensionality
 SVI_opt_itrs = 500
 BPSVI_opt_itrs = 500
 n_subsample_opt = None
@@ -123,7 +123,7 @@ def build_for_m(m): # auxiliary function for parallelizing BPSVI experiment
 
 if nm=="BPSVI": #parallelize over batch pseudocoreset sizes
   from multiprocessing import Pool
-  pool = Pool(processes=10)
+  pool = Pool(processes=10) 
   res = pool.map(build_for_m, range(1, M+1))
   for wts, pts, _ in res:
     w.append(wts)
