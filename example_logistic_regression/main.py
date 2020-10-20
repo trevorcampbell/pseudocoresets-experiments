@@ -23,7 +23,7 @@ samplediag = (sys.argv[5]=="True") # diagonal Gaussian assumption for posterior 
 graddiag = (sys.argv[6]=="True") # diagonal Gaussian assumption for coreset sampler
 if alg in riemann_coresets: i0 = float(sys.argv[7]) # initial learning rate
 np.random.seed(int(ID)) # random seed fixed per trial number
-num_processes = 10 # number of processes for parallelization of pseudocoresets experiment **adapt to your computing resources**
+num_processes = 16 # number of processes for parallelization of pseudocoresets experiment **adapt to your computing resources**
 
 #computes the Laplace approximation N(mu, Sig) to the posterior with weights wts
 def get_laplace(wts, Z, mu0, diag=False):

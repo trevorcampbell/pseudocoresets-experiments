@@ -15,9 +15,9 @@ d = 500 # datapoints dimensionality
 SVI_opt_itrs = 500
 BPSVI_opt_itrs = 500
 n_subsample_opt = None
-proj_dim = 100
+proj_dim = 100 # number of random projections
 pihat_noise = 0.75
-BPSVI_step_sched = lambda m: lambda i : max(1.1-0.005*m, 0.2)/(1+i) 
+BPSVI_step_sched = lambda m: lambda i : max(1.1-0.005*m, 0.2)/(1+i) # initial learning rate for PSVI starting inside [0.2, 1.1] dependending on the coreset size 
 SVI_step_sched = lambda i : 1./(1+i)
 
 results_fldr = 'results'
@@ -40,6 +40,7 @@ tr = sys.argv[2]
 #generate data and compute true posterior
 #use the trial # as the seed
 np.random.seed(int(tr))
+num_processes = 16 # number of processes for parallelization of pseudocoresets experiment **adapt to your computing resources**
 
 x = np.random.multivariate_normal(th, Sig, N)
 mup, LSigp, LSigpInv = gaussian.weighted_post(mu0, Sig0inv, Siginv, x, np.ones(x.shape[0]))
@@ -123,7 +124,7 @@ def build_for_m(m): # auxiliary function for parallelizing BPSVI experiment
 
 if nm=="BPSVI": #parallelize over batch pseudocoreset sizes
   from multiprocessing import Pool
-  pool = Pool(processes=10) 
+  pool = Pool(processes=num_processes) 
   res = pool.map(build_for_m, range(1, M+1))
   for wts, pts, _ in res:
     w.append(wts)

@@ -23,7 +23,7 @@ if not os.path.exists(results_fldr):
   os.mkdir(results_fldr)
 
 #use the trial # as seed
-np.random.seed(int(tr))
+np.random.seed(int(tr)) # fixed random seed per trial number
 M = 300 # maximum coreset size
 SVI_opt_itrs = 1000
 BPSVI_opt_itrs = 1000
@@ -33,6 +33,7 @@ proj_dim = 100
 pihat_noise = 0.75
 BPSVI_step_sched = lambda m: lambda i : 0.1/(1+i)
 SVI_step_sched = lambda i : 1./(1+i)
+num_processes = 16 # number of processes for parallelization of pseudocoresets experiment **adapt to your computing resources**
 
 N = 2000 # number of datapoints
 D = 100 # datapoints dimensionality
@@ -119,7 +120,7 @@ def build_per_m(m): # construction in parallel for different coreset sizes used 
 
 if nm in ['BPSVI']:
   from multiprocessing import Pool
-  pool = Pool(processes=4)
+  pool = Pool(processes=num_processes)
   res = pool.map(build_per_m, range(1, M+1))
   i=1
   for (wts, pts, _) in res:
