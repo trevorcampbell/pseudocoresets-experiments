@@ -31,7 +31,7 @@ class DiffPrivBatchPSVICoreset(Coreset):
     self.noise_mul = noise_multiplier
     self.init_sampler = init_sampler
     self.gen_inits = gen_inits
-    self.dp = (epsilon_calculation.epsilon(self.data.shape[0],
+    self.dp = (epsilon(self.data.shape[0],
                               self.n_subsample_opt, self.noise_mul, self.opt_itrs, self.delta), self.delta)
     super().__init__(**kw)
 
