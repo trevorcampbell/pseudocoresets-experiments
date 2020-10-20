@@ -11,7 +11,6 @@ import gaussian
 
 M = 200 # maximum coreset size
 N = 1000 # number of original set datapoints
-d = 500 # datapoints dimensionality
 SVI_opt_itrs = 500
 BPSVI_opt_itrs = 500
 n_subsample_opt = None
@@ -23,6 +22,9 @@ SVI_step_sched = lambda i : 1./(1+i)
 results_fldr = 'results'
 if not os.path.exists(results_fldr):
   os.mkdir(results_fldr)
+nm = sys.argv[1] # coreset method
+tr = sys.argv[2] # trial number
+d = int(sys.argv[3]) # datapoints dimensionality 
 
 mu0 = np.zeros(d)
 Sig0 = np.eye(d)
@@ -33,9 +35,6 @@ Sig0inv = np.linalg.inv(Sig0)
 Siginv = np.linalg.inv(Sig)
 SigLInv = np.linalg.inv(SigL)
 logdetSig = np.linalg.slogdet(Sig)[1]
-
-nm = sys.argv[1]
-tr = sys.argv[2]
 
 #generate data and compute true posterior
 #use the trial # as the seed
