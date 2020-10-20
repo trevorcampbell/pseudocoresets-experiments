@@ -8,4 +8,4 @@ D. Manousakas, Z. Xu, C. Mascolo, T. Campbell. "Bayesian Pseudocoresets," Advanc
 - In each `example_*` folder in this repo, run the `run.sh` script to perform the experiment
 - In each `example_*` folder in this repo, run the `plot_*.sh` script to plot the results
 
-Note: Adapt the `num_processes` parameters inside `run.sh` scripts according to your computational resources. This is used to parallelize the (DP-)PSVI experiment across the considered coreset sizes.
+Note: Adapt the `num_processes` parameters inside the `main.py` files for each experiment  according to your computational resources. This is used to parallelize the (DP-)PSVI experiment across the considered coreset sizes.
