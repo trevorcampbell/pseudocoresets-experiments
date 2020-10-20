@@ -169,6 +169,7 @@ dpbpsvi = DiffPrivBatchPSVICoreset(Z, prj_w, opt_itrs=DPBPSVI_opt_itrs, n_subsam
                                       noise_multiplier=nmult, l2normclip=100)
 dpbpsvi_t_setup = time.perf_counter()-t0
 
+
 algs = {'SVI': sparsevi,
         'BPSVI': None,
         'DPBPSVI': None,
@@ -207,7 +208,7 @@ def build_per_m(m): # construction in parallel for different coreset sizes used 
   return coreset.get(), time.perf_counter()-t0
 
 if alg in ['BPSVI', 'DPBPSVI']:
-  pool = Pool(processes=4)
+  pool = Pool(processes=10)
   res = pool.map(build_per_m, range(1, M+1))
   i=1
   for (wts, pts, _), cput in res:
@@ -245,6 +246,6 @@ for m in range(M+1):
 #save results
 f = open('results/'+dnm+'_'+alg+'_results_'+ID+'.pk', 'wb')
 if alg!='DPBPSVI': res = (cputs, w, p, mus_laplace, Sigs_laplace, rkls_laplace, fkls_laplace)
-else: res = (cputs, w, p, mus_laplace, Sigs_laplace, rkls_laplace, fkls_laplace, coreset.get_privacy_params())
+else: res = (cputs, w, p, mus_laplace, Sigs_laplace, rkls_laplace, fkls_laplace, dpbpsvi.get_privacy_params())
 pk.dump(res, f)
 f.close()
