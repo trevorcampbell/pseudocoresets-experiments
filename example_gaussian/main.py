@@ -17,7 +17,7 @@ BPSVI_opt_itrs = 500
 n_subsample_opt = None
 proj_dim = 100
 pihat_noise = 0.75
-BPSVI_step_sched = lambda m: lambda i : max((-0.005*m+1.1)/(1+i), 0.2) 
+BPSVI_step_sched = lambda m: lambda i : max(1.1-0.005*m, 0.2)/(1+i) 
 SVI_step_sched = lambda i : 1./(1+i)
 
 results_fldr = 'results'
