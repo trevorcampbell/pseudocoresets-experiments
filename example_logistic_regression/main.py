@@ -160,7 +160,7 @@ sparsevi_t_setup = time.perf_counter()-t0
 
 t0 = time.perf_counter()
 bpsvi = bc.BatchPSVICoreset(Z, prj_w, opt_itrs = BPSVI_opt_itrs, n_subsample_opt = n_subsample_opt,
-                            step_sched = BPSVI_step_sched, mup=mup, SigpInv=LSigpInv.dot(LSigpInv.T))
+                            step_sched = BPSVI_step_sched)
 bpsvi_t_setup = time.perf_counter()-t0
 
 t0 = time.perf_counter()
@@ -193,7 +193,7 @@ cputs[0] = t0s[alg]
 
 def build_per_m(m): # construction in parallel for different coreset sizes used in BPSVI
   bpsvi = bc.BatchPSVICoreset(Z, prj_w, opt_itrs = BPSVI_opt_itrs, n_subsample_opt = n_subsample_opt,
-                            step_sched = BPSVI_step_sched, mup=mup, SigpInv=LSigpInv.dot(LSigpInv.T))
+                            step_sched = BPSVI_step_sched)
 
   dpbpsvi = DiffPrivBatchPSVICoreset(Z, prj_w, opt_itrs=DPBPSVI_opt_itrs, n_subsample_opt=dp_n_subsample_opt,
                                       step_sched=DPBPSVI_step_sched, init_sampler=sampler_w, gen_inits=gen_inits,
