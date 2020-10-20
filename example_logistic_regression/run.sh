@@ -1,5 +1,4 @@
 #!/bin/bash
-
 for ID in {1..10}
 do
   # i. Transactions Dataset

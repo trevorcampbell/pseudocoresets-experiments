@@ -22,7 +22,8 @@ stan_samples = (sys.argv[4]=="True") # use stan for true posterior sampling
 samplediag = (sys.argv[5]=="True") # diagonal Gaussian assumption for posterior sampling
 graddiag = (sys.argv[6]=="True") # diagonal Gaussian assumption for coreset sampler
 if alg in riemann_coresets: i0 = float(sys.argv[7]) # initial learning rate
-np.random.seed(int(ID))
+np.random.seed(int(ID)) # random seed fixed per trial number
+num_processes = 10 # number of processes for parallelization of pseudocoresets experiment **adapt to your computing resources**
 
 #computes the Laplace approximation N(mu, Sig) to the posterior with weights wts
 def get_laplace(wts, Z, mu0, diag=False):
@@ -207,7 +208,7 @@ def build_per_m(m): # construction in parallel for different coreset sizes used 
   return coreset.get(), time.perf_counter()-t0
 
 if alg in ['BPSVI', 'DPBPSVI']:
-  pool = Pool(processes=10)
+  pool = Pool(processes=num_processes)
   res = pool.map(build_per_m, range(1, M+1))
   i=1
   for (wts, pts, _), cput in res:
