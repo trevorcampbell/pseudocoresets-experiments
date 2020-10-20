@@ -12,7 +12,7 @@ dnm=sys.argv[1]
 fldr_figs=sys.argv[2]
 fldr_res=sys.argv[3]
 
-algs = [('BPSVI','PSVI', pal[-1]), ('DPBPSVI','DP-PSVI', pal[-2]), ('SVI', 'SparseVI', pal[0]), ('RAND', 'Uniform', pal[3]), ('GIGAO','GIGA (Optimal)', pal[1]), ('GIGAR','GIGA (Realistic)', pal[2])]
+algs = [('BPSVI', 'PSVI', pal[-1]), ('DPBPSVI', 'DP-PSVI', pal[-2]), ('SVI', 'SparseVI', pal[0]), ('RAND', 'Uniform', pal[3]), ('GIGAO','GIGA (Optimal)', pal[1]), ('GIGAR','GIGA (Realistic)', pal[2])]
 fldr_figs = 'figs'
 if not os.path.exists(fldr_figs):
   os.mkdir(fldr_figs)
@@ -57,7 +57,7 @@ for alg in algs:
   cputs = np.zeros((len(trials), M))
   cszs = np.zeros((len(trials), M))
   for tridx, fn in enumerate(trials):
-    f = open(os.path.join(fldr_res,fn), 'rb')
+    f = open(os.path.join(fldr_res, fn), 'rb')
     res = pk.load(f) #(cputs, w, p, mus_laplace, Sigs_laplace, rkls_laplace, fkls_laplace)
     f.close()
     cputs[tridx, :] = res[0]

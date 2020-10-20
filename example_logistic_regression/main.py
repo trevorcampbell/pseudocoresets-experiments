@@ -15,13 +15,13 @@ from model_lr import *
 from dpbpsvi import DiffPrivBatchPSVICoreset
 
 riemann_coresets = ['DPBPSVI', 'BPSVI', 'SVI']
-alg = sys.argv[1]
-dnm = sys.argv[2]
-ID = sys.argv[3]
+alg = sys.argv[1] # coreset method
+dnm = sys.argv[2] # dataset name
+ID = sys.argv[3] # trial number
 stan_samples = (sys.argv[4]=="True") # use stan for true posterior sampling
 samplediag = (sys.argv[5]=="True") # diagonal Gaussian assumption for posterior sampling
 graddiag = (sys.argv[6]=="True") # diagonal Gaussian assumption for coreset sampler
-if alg in riemann_coresets: i0 = float(sys.argv[7])
+if alg in riemann_coresets: i0 = float(sys.argv[7]) # initial learning rate
 np.random.seed(int(ID))
 
 #computes the Laplace approximation N(mu, Sig) to the posterior with weights wts
@@ -54,14 +54,14 @@ def get_laplace(wts, Z, mu0, diag=False):
 
 ###############################
 ## TUNING PARAMETERS ##
-M = 100
+M = 100 # maximum coreset size
 SVI_step_sched = lambda itr : i0/(1.+itr)
 BPSVI_step_sched = lambda itr : i0/(1.+itr) 
 DPBPSVI_step_sched = lambda itr : i0/(1.+itr)
 n_subsample_opt = 200
 n_subsample_select = 1000
-projection_dim = 100 #random projection dimension
-pihat_noise = .75 #noise level (relative) for corrupting pihat
+projection_dim = 100 # random projection dimension
+pihat_noise = .75 # noise level (relative) for corrupting pihat
 SVI_opt_itrs = 500
 BPSVI_opt_itrs = 500
 DPBPSVI_opt_itrs = 500
@@ -165,8 +165,8 @@ bpsvi_t_setup = time.perf_counter()-t0
 
 t0 = time.perf_counter()
 dpbpsvi = DiffPrivBatchPSVICoreset(Z, prj_w, opt_itrs=DPBPSVI_opt_itrs, n_subsample_opt=dp_n_subsample_opt,
-                                      step_sched=DPBPSVI_step_sched, init_sampler=sampler_w, gen_inits=gen_inits,
-                                      noise_multiplier=nmult, l2normclip=100)
+                                   step_sched=DPBPSVI_step_sched, init_sampler=sampler_w, gen_inits=gen_inits,
+                                   noise_multiplier=nmult, l2normclip=100)
 dpbpsvi_t_setup = time.perf_counter()-t0
 
 
@@ -195,7 +195,6 @@ cputs[0] = t0s[alg]
 def build_per_m(m): # construction in parallel for different coreset sizes used in BPSVI
   bpsvi = bc.BatchPSVICoreset(Z, prj_w, opt_itrs = BPSVI_opt_itrs, n_subsample_opt = n_subsample_opt,
                             step_sched = BPSVI_step_sched)
-
   dpbpsvi = DiffPrivBatchPSVICoreset(Z, prj_w, opt_itrs=DPBPSVI_opt_itrs, n_subsample_opt=dp_n_subsample_opt,
                                       step_sched=DPBPSVI_step_sched, init_sampler=sampler_w, gen_inits=gen_inits,
                                       noise_multiplier=nmult, l2normclip=100)

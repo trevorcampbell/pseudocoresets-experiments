@@ -8,13 +8,13 @@ do
 	samplediag="True"
 	graddiag="False"
 	for alg in "RAND" "PRIOR" "GIGAO" "GIGAR"
-  do
+        do
 	  python3 main.py $alg $dnm $ID $stan_samples $samplediag $graddiag 
-  done
+        done
 	alg="SVI"
 	i0="0.1"
 	python3 main.py $alg $dnm $ID $stan_samples $samplediag $graddiag $i0
-	for alg in "BPSVI" "DPBPSVI"
+	for alg in  "DPBPSVI" "BPSVI"
         do
 	        i0="1."
 	 	python3 main.py $alg $dnm $ID $stan_samples $samplediag $graddiag $i0
@@ -25,17 +25,17 @@ do
 	stan_samples="False"
 	samplediag="False"
 	graddiag="True"
-  for alg in "RAND" "PRIOR" "GIGAO" "GIGAR"
-  do
+        for alg in "RAND" "PRIOR" "GIGAO" "GIGAR"
+        do
 	  python3 main.py $alg $dnm $ID $stan_samples $samplediag $graddiag 
-  done
+        done
 	alg="SVI"
 	i0="0.1"
 	python3 main.py $alg $dnm $ID $stan_samples $samplediag $graddiag $i0
 	for alg in "BPSVI" "DPBPSVI"
 	do
 	  i0="10.0"
-		python3 main.py $alg $dnm $ID $stan_samples $samplediag $graddiag $i0
+          python3 main.py $alg $dnm $ID $stan_samples $samplediag $graddiag $i0
 	done
 
 	# iii. Music Dataset
@@ -43,16 +43,16 @@ do
 	stan_samples="True"
 	samplediag="True"
 	graddiag="True"
-  for alg in "RAND" "PRIOR" "GIGAO" "GIGAR"
-  do
-		python3 main.py $alg $dnm $ID $stan_samples $samplediag $graddiag
-  done
+        for alg in "RAND" "PRIOR" "GIGAO" "GIGAR"
+        do
+          python3 main.py $alg $dnm $ID $stan_samples $samplediag $graddiag
+        done
 	alg="SVI"
 	i0="1.0"
 	python3 main.py $alg $dnm $ID $stan_samples $samplediag $graddiag $i0
 	for alg in "BPSVI" "DPBPSVI"
 	do
 	  i0="10.0"
-		python3 main.py $alg $dnm $ID $stan_samples $samplediag $graddiag $i0
+	  python3 main.py $alg $dnm $ID $stan_samples $samplediag $graddiag $i0
 	done
 done
