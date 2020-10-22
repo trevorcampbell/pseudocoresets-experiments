@@ -27,7 +27,7 @@ class DiffPrivBatchPSVICoreset(Coreset):
     self.n_subsample_opt = None if n_subsample_opt is None else min(data.shape[0], n_subsample_opt)
     self.step_sched = step_sched
     self.delta = 1./self.data.shape[0] if delta is None else delta
-    self.gradclip = l2normclip # unused as in our implementation we adaptively clip according to the median of constituent points potentials
+    self.gradclip = l2normclip # unused as in our implementation we adaptively clip according to the median of pseudopoints potentials
     self.noise_mul = noise_multiplier
     self.init_sampler = init_sampler
     self.gen_inits = gen_inits
