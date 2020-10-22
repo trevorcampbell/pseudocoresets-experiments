@@ -167,7 +167,7 @@ bpsvi_t_setup = time.perf_counter()-t0
 t0 = time.perf_counter()
 dpbpsvi = DiffPrivBatchPSVICoreset(Z, prj_w, opt_itrs=DPBPSVI_opt_itrs, n_subsample_opt=dp_n_subsample_opt,
                                    step_sched=DPBPSVI_step_sched, init_sampler=sampler_w, gen_inits=gen_inits,
-                                   noise_multiplier=nmult, l2normclip=100)
+                                   noise_multiplier=nmult)
 dpbpsvi_t_setup = time.perf_counter()-t0
 
 
@@ -198,7 +198,7 @@ def build_per_m(m): # construction in parallel for different coreset sizes used 
                             step_sched = BPSVI_step_sched)
   dpbpsvi = DiffPrivBatchPSVICoreset(Z, prj_w, opt_itrs=DPBPSVI_opt_itrs, n_subsample_opt=dp_n_subsample_opt,
                                       step_sched=DPBPSVI_step_sched, init_sampler=sampler_w, gen_inits=gen_inits,
-                                      noise_multiplier=nmult, l2normclip=100)
+                                      noise_multiplier=nmult)
   t0 = time.perf_counter()
   if alg == 'BPSVI':
     coreset = bpsvi
